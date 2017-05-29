@@ -139,7 +139,9 @@ def translate_pix(xpix_rot, ypix_rot, xpos, ypos, scale):
 ### Autonomous Navigation and Mapping
 
 #### 1. Fill in the `perception_step()` (at the bottom of the `perception.py` script) and `decision_step()` (in `decision.py`) functions in the autonomous mapping scripts and an explanation is provided in the writeup of how and why these functions were modified as they were.
-
+* The prection_step() was filled in basically with most of the function used as used previously in the jupyter notebook only difference is that the Rover.
+* Vision clearly mapped the enviroment under 3 different categories (Rock , obstacle and free space).
+![alt text][image6]
 
 #### 2. Launching in autonomous mode your rover can navigate and map autonomously.  Explain your results and how you might improve them in your writeup.  
 
@@ -147,5 +149,5 @@ def translate_pix(xpix_rot, ypix_rot, xpos, ypos, scale):
 
 Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
 
-![alt text][image6]
+
 * Here's a [link to my video result #2](./output/Roversim_result.mp4)
