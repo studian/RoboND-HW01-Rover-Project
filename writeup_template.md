@@ -150,5 +150,5 @@ def translate_pix(xpix_rot, ypix_rot, xpos, ypos, scale):
 
 Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
 
-
+![alt text][image7]
 * Here's a [link to my video result #2](./output/Roversim_result.mp4)
