@@ -5,8 +5,10 @@
 [image3]: ./output/Color_Threshold.JPG
 [image4]: ./output/Coordinate_Transformations.JPG
 [image5]: ./output/test_mapping_result.jpg
+[image6]: ./output/Roversim_results.jpg
 
 [video1]: ./output/test_mapping.mp4
+[video2]: ./output/Roversim_result.mp4
 
 ## Project: Search and Sample Return
 ### Writeup Template: You can use this file as a template for your writeup if you want to submit it as a markdown file, but feel free to use some other method and submit a pdf if you prefer.
@@ -53,36 +55,54 @@
 
 * `color_treshold` method in the RGB: 
 ```python
-rgb_thresh=(160, 160, 160)):
-
-above_thresh = (img[:,:,0] > rgb_thresh[0]) \
+def color_thresh(img, rgb_thresh=(160, 160, 160)):
+    # Create an array of zeros same xy size as img, but single channel
+    color_select = np.zeros_like(img[:,:,0])
+    # Require that each pixel be above all three threshold values in RGB
+    # above_thresh will now contain a boolean array with "True"
+    # where threshold was met
+    above_thresh = (img[:,:,0] > rgb_thresh[0]) \
                 & (img[:,:,1] > rgb_thresh[1]) \
                 & (img[:,:,2] > rgb_thresh[2])
-color_select[above_thresh] = 1
+    # Index the array of zeros with the boolean array and set to 1
+    color_select[above_thresh] = 1
+    # Return the binary image
+    return color_select
 ```
 
 * `obstacle_thresh` method in the RGB: 
 ```python
-rgb_thresh=(160, 160, 160)):
-
-above_thresh = (img[:,:,0] < rgb_thresh[0]) \
-                & (img[:,:,1] < rgb_thresh[1]) \
-                & (img[:,:,2] < rgb_thresh[2])
-color_select[above_thresh] = 1
+def obstacle_thresh(img, rgb_lower_thresh=(3,3,3), rgb_upper_thresh=(155, 155, 155)):
+    # Finding obstacles
+    color_obstacle = np.zeros_like(img[:,:,0])
+    
+    occupied_space=(img[:,:,0] < rgb_upper_thresh[0]) \
+                & (img[:,:,1] < rgb_upper_thresh[1]) \
+                & (img[:,:,2] < rgb_upper_thresh[2]) \
+                & (img[:,:,1] > rgb_lower_thresh[0]) \
+                & (img[:,:,2] > rgb_lower_thresh[1]) \
+                & (img[:,:,2] > rgb_lower_thresh[2]) 
+    color_obstacle[occupied_space]=1
+  
+    return color_obstacle
 ```
 
-* `rock_thresh` method in the HSV: 
+* `rock_thresh` method in the RGB: 
 ```python
-threshold_low=(100, 100, 0)
-threshold_high=(160, 160, 40)
+def rock_thresh(img, rgb_lower_thresh=(60,60,45), rgb_upper_thresh=(255,255,0)):
+    #Finding yellow rock samples
+    color_rock = np.zeros_like(img[:,:,0])
+    
+    rock=(img[:,:,0] < rgb_upper_thresh[0]) \
+      & (img[:,:,1] < rgb_upper_thresh[1]) \
+      & (img[:,:,2] > rgb_upper_thresh[2]) \
+      & (img[:,:,0] > rgb_lower_thresh[0]) \
+      & (img[:,:,1] > rgb_lower_thresh[1]) \
+      & (img[:,:,2] < rgb_lower_thresh[2])
+      
+    color_rock[rock]=1
+    return color_rock
 
-low_yellow = np.array([threshold_low[0], threshold_low[1], threshold_low[2]], dtype = "uint8")
-high_yellow = np.array([threshold_high[0], threshold_high[1], threshold_high[2]], dtype = "uint8")
-
-# convert to HSV space
-img_hsv = cv2.cvtColor(img, cv2.COLOR_RGB2HSV,3)
-# mask yellow values
-mask_rock = cv2.inRange(img_hsv, low_yellow, high_yellow)
 
 ```
 ![alt text][image3]
@@ -94,9 +114,9 @@ def rotate_pix(xpix, ypix, yaw):
     # Convert yaw to radians
     # Apply a rotation
     yaw_rad = yaw * np.pi / 180
-    xpix_rotated = (xpix * np.cos(yaw_rad)) - (ypix * np.sin(yaw_rad))
-                            
+    xpix_rotated = (xpix * np.cos(yaw_rad)) - (ypix * np.sin(yaw_rad))                            
     ypix_rotated = (xpix * np.sin(yaw_rad)) + (ypix * np.cos(yaw_rad))
+    
     # Return the result  
     return xpix_rotated, ypix_rotated
 
@@ -106,6 +126,7 @@ def translate_pix(xpix_rot, ypix_rot, xpos, ypos, scale):
     # Apply a scaling and a translation
     xpix_translated = (xpix_rot / scale) + xpos
     ypix_translated = (ypix_rot / scale) + ypos
+    
     # Return the result  
     return xpix_translated, ypix_translated
 ```
@@ -126,8 +147,5 @@ def translate_pix(xpix_rot, ypix_rot, xpos, ypos, scale):
 
 Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
 
-
-
-![alt text][image3]
-
-
+![alt text][image6]
+* Here's a [link to my video result #2](./output/Roversim_result.mp4)
