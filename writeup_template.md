@@ -6,6 +6,7 @@
 [image4]: ./output/Coordinate_Transformations.JPG
 [image5]: ./output/test_mapping_result.jpg
 [image6]: ./output/Roversim_results.jpg
+[image7]: ./output/Autonomous_Navigation_and_Mapping.jpg
 
 [video1]: ./output/test_mapping.mp4
 [video2]: ./output/Roversim_result.mp4
