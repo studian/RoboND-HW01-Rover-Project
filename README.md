@@ -1,5 +1,5 @@
 [//]: # (Image References)
-[image_0]: ./misc/rover_image.jpg
+[image_0]: ./rover_image.jpg
 # Search and Sample Return Project
 ![alt text][image_0] 
 
